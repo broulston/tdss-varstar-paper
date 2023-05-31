@@ -1,57 +1,466 @@
 % Define document class
-\documentclass[twocolumn]{aastex631}
+\documentclass[twocolumn, tighten, astrosymb]{aastex631}
+% \documentclass[twocolumn,linenumbers, trackchanges, times, tighten, astrosym]{aastex631}
+% \pdfoutput=1 %for arXiv submission
+
+% \usepackage{amsmath,amstext}
 \usepackage{showyourwork}
+
+\usepackage{graphicx}
+\usepackage[caption=false]{subfig}
+% \usepackage[figure,figure*]{hypcap}
+% \usepackage[showframe]{geometry}
+% \graphicspath{ {figures/} }
+\usepackage{enumitem}
+
+
+%% The default is a single spaced, 10 point font, single spaced article.
+%% There are 5 other style options available via an optional argument. They
+%% can be invoked like this:
+%%
+%% \documentclass[arguments]{aastex63}
+%% 
+%% where the layout options are:
+%%
+%%  twocolumn   : two text columns, 10 point font, single spaced article.
+%%                This is the most compact and represent the final published
+%%                derived PDF copy of the accepted manuscript from the publisher
+%%  manuscript  : one text column, 12 point font, double spaced article.
+%%  preprint    : one text column, 12 point font, single spaced article.  
+%%  preprint2   : two text columns, 12 point font, single spaced article.
+%%  modern      : a stylish, single text column, 12 point font, article with
+%%        wider left and right margins. This uses the Daniel
+%%        Foreman-Mackey and David Hogg design.
+%%  RNAAS       : Preferred style for Research Notes which are by design 
+%%                lacking an abstract and brief. DO NOT use \begin{abstract}
+%%                and \end{abstract} with this style.
+%%
+%% Note that you can submit to the AAS Journals in any of these 6 styles.
+%%
+%% There are other optional arguments one can invoke to allow other stylistic
+%% actions. The available options are:
+%%
+%%   astrosymb    : Loads Astrosymb font and define \astrocommands. 
+%%   tighten      : Makes baselineskip slightly smaller, only works with 
+%%                  the twocolumn substyle.
+%%   times        : uses times font instead of the default
+%%   linenumbers  : turn on lineno package.
+%%   trackchanges : required to see the revision mark up and print its output
+%%   longauthor   : Do not use the more compressed footnote style (default) for 
+%%                  the author/collaboration/affiliations. Instead print all
+%%                  affiliation information after each name. Creates a much 
+%%                  longer author list but may be desirable for short 
+%%                  author papers.
+%% twocolappendix : make 2 column appendix.
+%%   anonymous    : Do not show the authors, affiliations and acknowledgments 
+%%                  for dual anonymous review.
+%%
+%% these can be used in any combination, e.g.
+%%
+%% \documentclass[twocolumn,linenumbers,trackchanges]{aastex63}
+%%
+%% AASTeX v6.* now includes \hyperref support. While we have built in specific
+%% defaults into the classfile you can manually override them with the
+%% \hypersetup command. For example,
+%%
+%% \hypersetup{linkcolor=red,citecolor=green,filecolor=cyan,urlcolor=magenta}
+%%
+%% will change the color of the internal links to red, the links to the
+%% bibliography to green, the file links to cyan, and the external links to
+%% magenta. Additional information on \hyperref options can be found here:
+%% https://www.tug.org/applications/hyperref/manual.html#x1-40003
+%%
+%% Note that in v6.3 "bookmarks" has been changed to "true" in hyperref
+%% to improve the accessibility of the compiled pdf file.
+%%
+%% If you want to create your own macros, you can do so
+%% using \newcommand. Your macros should appear before
+%% the \begin{document} command.
+%%
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand\aastex{AAS\TeX}
+\newcommand\latex{La\TeX}
+
+\newcommand{\teff}{$T_{\mathrm{eff}}$}
+\newcommand{\logg}{$\log(g)$}
+
+%% Reintroduced the \received and \accepted commands from AASTeX v5.2
+\received{\today}
+% \revised{}
+% \accepted{}
+% \published{}
+
+%% Command to document which AAS Journal the manuscript was submitted to.
+%% Adds "Submitted to " the argument.
+\submitjournal{\apj}
+
+%% For manuscript that include authors in collaborations, AASTeX v6.3
+%% builds on the \collaboration command to allow greater freedom to 
+%% keep the traditional author+affiliation information but only show
+%% subsets. The \collaboration command now must appear AFTER the group
+%% of authors in the collaboration and it takes TWO arguments. The last
+%% is still the collaboration identifier. The text given in this
+%% argument is what will be shown in the manuscript. The first argument
+%% is the number of author above the \collaboration command to show with
+%% the collaboration text. If there are authors that are not part of any
+%% collaboration the \nocollaboration command is used. This command takes
+%% one argument which is also the number of authors above to show. A
+%% dashed line is shown to indicate no collaboration. This example manuscript
+%% shows how these commands work to display specific set of authors 
+%% on the front page.
+%%
+%% For manuscript without any need to use \collaboration the 
+%% \AuthorCollaborationLimit command from v6.2 can still be used to 
+%% show a subset of authors.
+%
+%\AuthorCollaborationLimit=2
+%
+%% will only show Schwarz & Muench on the front page of the manuscript
+%% (assuming the \collaboration and \nocollaboration commands are
+%% commented out).
+%%
+%% Note that all of the author will be shown in the published article.
+%% This feature is meant to be used prior to acceptance to make the
+%% front end of a long author article more manageable. Please do not use
+%% this functionality for manuscripts with less than 20 authors. Conversely,
+%% please do use this when the number of authors exceeds 40.
+%%
+%% Use \allauthors at the manuscript end to show the full author list.
+%% This command should only be used with \AuthorCollaborationLimit is used.
+
+%% The following command can be used to set the latex table counters.  It
+%% is needed in this document because it uses a mix of latex tabular and
+%% AASTeX deluxetables.  In general it should not be needed.
+%\setcounter{table}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% The following section outlines numerous optional output that
+%% can be displayed in the front matter or as running meta-data.
+%%
+%% If you wish, you may supply running head information, although
+%% this information may be modified by the editorial offices.
+\shorttitle{TDSS Stellar Variability}
+\shortauthors{Roulston et al.}
+%%
+%% You can add a light gray and diagonal water-mark to the first page 
+%% with this command:
+% \watermark{DRAFT}
+%% where "text", e.g. DRAFT, is the text to appear.  If the text is 
+%% long you can control the water-mark size with:
+%% \setwatermarkfontsize{dimension}
+%% where dimension is any recognized LaTeX dimension, e.g. pt, in, etc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\turnoffeditone
+%\turnoffedittwo
+%\turnoffeditthree
+%To turn off revision highlighting, remove ",trackchanges" from class. and uncomment the line below
+\turnoffediting
+
+%% This is the end of the preamble.  Indicate the beginning of the
+%% manuscript itself with \begin{document}.
 
 % Begin!
 \begin{document}
 
 % Title
-\title{An open source scientific article}
+\title{The Time-Domain Spectroscopic Survey: Stellar Variability}
+
 
 % Author list
-\author{@broulston}
+\correspondingauthor{Benjamin Roulston}
+\email{roulston@caltech.edu}
+
+\author[0000-0002-9453-7735]{Benjamin R. Roulston}
+% \altaffiliation{SAO Predoctoral Fellow}
+\affiliation{Division of Physics, Mathematics, and Astronomy, California Institute of Technology, Pasadena, CA 91125, USA}
+\author[0000-0002-8179-9445]{Paul J. Green}
+\affiliation{Center for Astrophysics $\vert$ Harvard \& Smithsonian, 60 Garden St, Cambridge, MA 02138, USA}
+\author[0000-0001-8665-5523]{John J. Ruan}
+\affiliation{McGill University, 3550 University Street Montreal, QC H3A 2A7, Canada}
+\author{Chelsea L. MacLeod}
+\affiliation{BlackSky, 1505 Westlake Ave N \#600, Seattle, WA 98109, USA}
+\author{Scott F. Anderson}
+\affiliation{Department of Astronomy, University of Washington, Box 351580, Seattle, WA 98195, USA}
+
 
 % Abstract with filler text
 \begin{abstract}
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-    Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-    Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-    Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-    Phasellus eu tellus sit amet tortor gravida placerat.
-    Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-    Praesent eget sem vel leo ultrices bibendum.
-    Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-    Curabitur auctor semper nulla donec varius orci eget risus.
-    Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-    Duis eget orci sit amet orci dignissim rutrum.
+We present the final variable star sample of the Time-Domain Spectroscopic Survey (TDSS). The TDSS is a Sloan Digital Sky Survey (SDSS)-IV Extended Baryon Oscillation Spectroscopic Survey (eBOSS) subproject that aims to provide classification optical spectra for photometrically variable objects, selected as variable from a combination of SDSS and PanSTARRS light curves only, without other selection criteria. We focus here on the stellar sample of TDSS and report on the 23,595 stars that have TDSS optical spectra and photometric light curves from either the Catalina Sky Survey (CSS) or the Zwicky Transient Facility (ZTF).  The variable stars here cover a wide range of spectral types, including both extrinsic and intrinsic variables. We search all light curves for periodic signals and classify the *** systems found to be periodic variables. We provide variability statistics for *** non-periodic objects. We use optical spectra to gain information about the source such as H$\alpha$ emission, T$_{\textrm{Eff.}}$, and - by incorporating information from Gaia EDR3 - absolute magnitudes and UVW space motions. Using the spectral information in addition to the light curve statistics we build a random forest classifier that can detect and classify variable stars with the additional insights gained from using optical spectra. We find this classifier to have an average of XX\% accuracy of distinguishing between different periodic types and an average of XX\% accuracy for non-periodic objects. With upcoming large all-sky surveys like LSST, accurate and fast classification will be necessary to work through the upcoming torrent of data, and spectroscopic surveys will be a valuable tool to aid in this classification of variable stars.
 \end{abstract}
 
-% Main body with filler text
-\section{Introduction}
-\label{sec:intro}
+%% Keywords should appear after the \end{abstract} command. 
+%% See the online documentation for the full list of available subject
+%% keywords and the rules for their use.
+\keywords{Variable stars (1761), Surveys (1671), Classification (1907), Time domain astronomy (2109), Light curve classification (1954), Period search (1955), Spectroscopy (1558)}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-Phasellus eu tellus sit amet tortor gravida placerat.
-Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-Praesent eget sem vel leo ultrices bibendum.
-Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-Curabitur auctor semper nulla donec varius orci eget risus.
-Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-Duis eget orci sit amet orci dignissim rutrum.
 
-Nam dui ligula, fringilla a, euismod sodales, sollici- tudin vel, wisi.
-Morbi auctor lorem non justo, nam lacus libero, pretium at, lobortis vitae.
-Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna.
-Morbi ac orci et nisl hendrerit mollis, suspendisse ut massa, cras nec ante.
-Pellentesque a nulla cum sociis natoque penatibus et magnis dis parturient.
-Aliquam tincidunt urna, nulla ullamcorper vestibulum turpis.
-Pellentesque cursus luctus mauris \citep{Luger2021}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Introduction%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction} \label{sec:introduction}
 
-\bibliography{bib}
+Variable stars represent an important tool set in astronomy. They span the entire range of spectral types, temperatures, masses, and stages of stellar evolution. Observations of variable stars can span from photometric, to spectroscopic, to even interferometry. Each of these different technique probe different areas of the variability tree and allow for the determination of different properties of the variability and source. It is no surprise then that many research efforts have been conducted to understand stellar variability. This has mainly focused on many large, all-sky, photometric surveys such as CRTS, ZTF and in the future LSST. However, to date there has not been an effort to undertake a large scale spectroscopic survey of variable stars....more about variables here etc
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{TDSS Variable Star Program} \label{sec:TDSS}
+
+The Time-Domain Spectroscopic Survey \citep[TDSS;][]{Morganson2015} is an innovative spectroscopic survey aimed at providing an unbiased spectroscopic view of all variables. TDSS is a subprogram of the Sloan Digital Sky Survey IV's \citep[SDSS-IV;][]{SDSS_4}  extended Baryon Acoustic Oscillation Sky Survey  \citep[eBOSS;][]{EBOSS} project. TDSS was designed to observe more than 220,000 optical spectra to perform initial characterization and identification of photometrically-variable point sources. The TDSS sample was selected and targeted based on variability between single-epoch SDSS photometry and multi-epoch Pan-STARRS1 3$\pi$ survey \citep[PS1;][]{PS1_1, PS1_2} photometry.
+
+The initial TDSS target list was comprised of 135,000 quasars and 85,000 stellar variables \citep{Morganson2015}. These were selected so as to avoid any bias in selection outside of detected variability in the SDSS-PS1 data set (e.g., avoids just reproducing quasar color-cuts from SDSS). This allows TDSS to span more types of variable objects. For example, the TDSS stellar sample is comprised of pulsating variables, eclipsing binaries, cataclysmic variables, chromospherically active stars, as well as other types of stellar variables. 
+
+This paper details the stellar variable sample within TDSS's main single-epoch-spectroscopy (SES) program \citep{Morganson2015}. The SES program --- along with its pilot survey, dubbed SEQUELS within SDSS-III \citep{Ruan2016} --- primarily targets optical point sources (unconfirmed quasars and stars) for the first epoch of spectroscopy based on variability.  Additionally, within several ``few-epoch spectroscopy'' (FES) subprograms, TDSS also acquires repeat spectroscopic observations for subsets of known stars and quasars that are astrophysically interesting.  The FES programs are described by \citet{MacLeod2018} and include several classes of quasars and stars re-targeted to study their spectroscopic variability. The FES stellar programs are not focused here, and more information about those programs can be found in \citet{MacLeod2018, Roulston2019} (**other FES papers**??).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Initial Selection from SDSS and PanSTARRS-1}
+
+The TDSS SES sample selection is described in detail by \citet{Morganson2015}. We provide a brief summary here for context. 
+
+\citet{Morganson2015} selected the initial TDSS SES sample based on a combination of $griz$ photometry from SDSS DR9 \citep{SDSS_DR9} (single-epoch) and the  PS1 3$\pi$ survey \cite{PS1_1, PS1_2} (multi-epoch). The SDSS photometry was converted into the PS1 system to allow comparisons directly among those epochs. A three-dimensional kernel density estimator (KDE) was trained on a sample of Strip 82 variable and non-variable objects.
+
+This KDE used three principal parameters: (1) the PS1 SDSS median magnitude difference which captures long-timescale (multi-year) variability; (2) PS1 only variance which describes shorter-timescale (days to a year) variability; and (3) median PS1 magnitudes, which captures the need for larger amplitudes for fainter objects to be detected as variable.
+
+The KDE was used to determine the probability that each object is variable, based on the training sample of Stripe 82 data. This was used to select a uniform 10 objects $\deg^{-2}$ to match the TDSS fiber allocation in the SDSS-IV.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sub-sample Optical Spectra}\label{subsec:spectra}
+
+We select stars from the TDSS sample that have been observed as of the DR16 \citep{SDSS_DR16} of the SDSS-IV as this was the end of the eBOSS and therefore also the end of the TDSS. This includes all spectra up to an MJD of 58543 (2019 March 1). All of these stars were targeted by the TDSS program on the criteria of being variable in a combination of SDSS photometric observations and PanSTARRS. While TDSS is a subprogram of eBOSS and therefore a SDSS-IV program, there was a small pilot program included in the SDSS-III. This Sloan Extended QUasar, Emission Line galaxies, and Luminous red galaxies Survey (SEQUELS) was part of the SDSS-III BOSS survey \citep{Dawson2013} and observed TDSS targets as well \citep{Ruan2016}. Additionally, during the TDSS target selection, some objects had already been observed during previous iterations of the SDSS and consequentially were excluded from targeting for new eBOSS spectra. 
+
+Our spectroscopic sample, therefore, covers spectra from SDSS-I -- SDSS-IV, and span MJDs from 51779 (2000 August 23) to 58543 (2019 March 1), with 90\% having an observation MJD $> 56715$ (2014 February 27), near the beginning of SDSS-IV. The majority of the variable stars in our sample are from the TDSS SES program, and we do not focus on any repeat FES spectra in this paper. We do however include the FES \texttt{HYPSTAR} targets.
+
+Since the spectroscopic observations for this work are from a combination of SDSS-I/SDSS-II and SDSS-IV spectroscopic data they contain spectra taken with both versions of the SDSS spectrograph. SDSS-I/SDSS-II spectra were taken with the legacy SDSS spectrograph. These data have a wavelength range of 3900--9100\AA\ with a resolution of $R \sim 2000$. The pixel size is 69 km s$^{-1}$. In SDSS-IV, the new eBOSS spectrograph \citep{SDSS_spectrograph} has improved qualities compared to the legacy spectrograph. The eBOSS spectrograph covers the 3,600--10,400\AA\ range, has a resolution of $R \sim 2500$, and has a 1.7\AA\ per pixel size.
+
+While the original target list for TDSS had approximately 85,000 variable stars, as of the end of TDSS (MJD 58543, 2019 March 1), there are only 50,585 stars with spectroscopic observations (3,250 from SEQUELS SDSS-III, 47,335 from TDSS in eBOSS SDSS-IV). We removed all FES targets but kept 675 \texttt{HYPSTAR} targets.
+
+We also removed any objects with morphological \texttt{CLASS=`GALAXY'} (since many were double or fuzzy, and may have unreliable photometric light curves). We then removed any object with \texttt{ZWARNING} or \texttt{ZWARNING\_NOQSO} $> 0$, cross-matched to SDSS DR12 \citep{SDSS_DR12} photometry, and removed any duplicates. 
+
+We removed any object for which none of $g$, $r$, or $i$ mag are brighter than 20.0, leaving 26,346 stars with spectroscopic observations that meet our quality cuts and cross-matches.
+
+We cross-matched this sample to Gaia EDR3 \citep{GaiaEDR3} and the distance catalog of \citet{GaiaEDR3_dist}. This resulted in 25,409 stars with Gaia EDR3 data. This is the sample used to search for optical light curves in both the Catalina Sky Survey and the Zwicky Transient Facility to aid in the classification of variability.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \subsection{Catalina Light Curves}\label{subsec:css}
+% We cross-matched to the Catalina Sky Survey DR2 \citep[CSS;][]{CSS}. We required our cross-matches to be within 2\arcsec\ of our target coordinates, with a matched source having greater than $10$ epochs of photometry. This resulted in 21,834 (87\%) of our TDSS stars (with spectra) also having CSS light curves. From this set, the CSS sample light curves have the following statistics: the median number of epochs is 262, mean is 264. 10\% have less than $71$ epochs, and 10\% have greater than $444$ epochs. These statistics are summarized in Table \ref{tab:lc_stats}.
+
+% Of these stars, 926 ($\sim 4$\%) have been previously studied by \citet{Drake2014}, with most of those being classified RR Lyrae.
+
+% We found the magnitude errors in the CSS survey to be underestimated for some objects fainter than $r = 17$. In order to make sure we are treating the magnitude errors appropriately, we model the error curve (shown in Figure \ref{fig:css_lc_magerr}). We fit the CSS error curve for our sample, excluding those points that by eye appear to be underestimated, with a cubic polynomial. Since there is a natural distribution of the magnitude error about a mean value, we shift the fit polynomial by 1.5 times the mean residual of the predicted magnitude error. This shifted fit polynomial is shown in Figure \ref{fig:css_lc_magerr} by the solid red line. The points in Figure \ref{fig:css_lc_magerr} show the distribution of the magnitude and magnitude errors from our sample, colored by the number of epochs that were averaged for each object in the plot. The points in red are those objects that have their magnitude errors underestimated below the fit red curve. For all sources, we checked all epochs to see if any reported errors were underestimated given the magnitude at that epoch. If the errors were underestimated, we replaced them with the predicted magnitude error at that epoch magnitude. 
+
+
+% \begin{figure}
+% \centering
+% \epsscale{1.2}
+% \plotone{CSS_LC_magerr_fit.pdf}
+% \caption{Scatter plot of mean magnitude and magnitude error for the sample with CSS light curves. The color of each point represents the number of epochs for each object, over which the mean magnitude and magnitude error values were calculated. A number of objects have underestimated errors past $V=17$, with the number of errors underestimated increasing past $V=19$. The red line shows the fit cubic polynomial shifted lower by 1.5 times the mean residual. This curve is used to estimate which errors are underestimated, shown as those below the curve in red. For all sources, we replace the magnitude error for any epoch in which the reported magnitude error falls before the red curve. Those underestimated errors are replaced with the predicted magnitude error for the given magnitude at that epoch.}
+% \label{fig:css_lc_magerr}
+% \end{figure}
+
+\begin{singlespace}
+\input{LC_stats.tex}
+\end{singlespace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Zwicky Transient Facility Light Curves}\label{subsec:ztf}
+
+We also cross-matched our sample to the Zwicky Transient Facility DR5 \citep[ZTF;][]{ZTF_1,ZTF_2,ZTF_3}. We used the same matching criteria as for the CSS light curves, requiring a match to be within 2\arcsec\ of our target coordinates and each star having greater than $10$ epochs in each of the available ZTF filters.
+
+In the ZTF $g$ filter there are $18,718$ stars ($\sim$75\%) from our sample that meet these criteria. These star's light curves have the following statistics: the median number of epochs is $149$, mean is $197$. $10$\% have less than $18$ epochs, and 10\% have greater than $432$ epochs.
+
+In the ZTF $r$ filter there are $24,313$ stars ($\sim$97\%) from our sample that meet these criteria. These star's light curves have the following statistics: the median number of epochs is $279$, mean is $311$. $10$\% have less than $51$ epochs, and 10\% have greater than $583$ epochs.
+
+We also matched to the ZTF $i$ filter, matching to 15619 stars ($\sim$62\%). However, these stars have only a mean of $34$ epochs. Therefore, we do not include the ZTF $i$ filter in our sample and analysis. 
+
+In this sample, there are 18,651 ($\sim$74\%) stars that have light curves in both the ZTF $g$ and $r$ filters. A summary of light curve statistics are reported in Table \ref{tab:lc_stats} for all ZTF filters. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Final Sample}\label{subsec:finalsample}
+
+
+\begin{figure*}
+\script{plot_sky_dist.ipynb}
+\centering
+% \epsscale{1.2}
+\plotone{figures/TDSS_VarStar_Sample_SkyDist.pdf}
+\caption{On sky positions and coverage of the TDSS SES sample. This is the final SES variable star sample of 25,121 stars that have an optical SDSS spectrum and at least one light curve. Darker regions represent a higher density of stars. There are no stars in the SES sample below a declination of -7\degr, or above a declination of 60\degr.}
+\label{fig:sample_onsky}
+\end{figure*}
+
+Our final sample consists of 25,121 stars selected for variability in the TDSS program. Each of these stars has an SDSS optical spectrum, and at least one light curve from either CSS, ZTF $g$, or ZTF $r$.
+
+There are 21,093 ($\sim$84\%) stars that have a CSS light curve and a light curve in at least one ZTF filter. There are also 16,476 ($\sim$66\%) stars that have light curves in all three light curve surveys (i.e. CSS, ZTF $g$, ZTF $r$).
+
+We use v2.0 of the \texttt{PyHammer} code \citep{Roulston2020} to provide spectral classification and radial velocities for the entire sample. This typing also provides the ability to detect specific combinations of double-lined spectroscopic binaries (SB2) from our single epoch spectroscopy. 
+
+\begin{figure}
+\script{sample_plots.py}
+\centering
+\epsscale{1.2}
+\plotone{figures/gmr_umg.pdf}
+\caption{SDSS color-color diagram for our complete SES variable star sample. The marker color for each star is colored according to the primary spectral type as measured by PyHammer. Our sample covers all the primary spectral types and includes a few L-dwarfs, C stars, and DA white dwarfs. The M-dwarfs (yellow) seem to be smeared out in $u-g$ color space, however, this is an artifact of the observations. The M-dwarfs are generally faint, especially in the $u$ filter, resulting in larger uncertainties causing the smearing seen.}
+\label{fig:gmr_umg}
+\end{figure}
+
+The on-sky positions of the final SES variable star sample are shown in Figure \ref{fig:sample_onsky}. The TDSS footprint follows that of the eBOSS survey, and there are no objects in our sample below a declination of -7\degr, or above a declination of 60\degr.
+
+Figure \ref{fig:gmr_umg} shows a SDSS color-color diagram for our complete sample. The marker color of each star shows the primary spectral type (e.g. A, F, M, etc.) of the object's spectrum as typed by PyHammer. Our sample covers all spectral types, including a few L dwarfs, C stars, and DA white dwarfs. The spectral types can be seen as a sequence in the color-color diagram. The M-dwarfs (yellow) seem to be smeared out in $u-g$ color space, however this is an artifact of the observations. The M-dwarfs are general faint, especially in the $u$ filter resulting in larger uncertainties, causing the smearing seen. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Light Curve Analysis} \label{sec:lc_analysis}
+
+Before we use the light curves, we ran a cleaning algorithm to ensure every epoch was good and had a corresponding correct error.
+% For the CSS light curves, this involved using the error relationship fit in Figure \ref{fig:css_lc_magerr}.
+For every epoch of every CSS light curve, we compare the reported error to this relationship, and if the reported error is below the fit curve we replace the reported error with the expected error at that magnitude. 
+
+Inspecting the ZTF light curves in the same way as the CSS light curves we find that the ZTF errors do not show the same underestimation. Therefore we use the reported ZTF errors, but only include epochs for which the ZTF flag \texttt{catflags} $ == 0$ (no ZTF flags), ensuring every epoch is of high quality.
+
+We also perform an outlier removal on all the light curves. We do this by calculating the 5 \% and 95\% magnitude for each light curve. Using these we select the brightest and faintest 5\% of each light curve. We calculate the median magnitude and magnitude error for both the brightest and faintest 5\%. From these, we remove any outliers that are brighter or fainter than med(mag) $\mp$ $2\times$med(mag error) respectively. If this selection drops the number of epochs below 10, we remove that light curve from our analysis.
+
+We used these filtered light curves to calculate the following statistics.
+\begin{singlespace}
+\begin{itemize}[itemsep=1mm, parsep=0pt] %enumerate for numbered list
+    \item N$_{\rm{epochs}}$, number of light curve epochs
+    \item N$_{\rm{rejects}}$, number of epochs rejected from filtering
+    \item $\mu_{\rm{mag}}$, mean magnitude
+    \item $\mu_{\rm{mag error}}$, mean magnitude error
+    \item $\sigma_{\rm{mag}}$, light curve standard deviation
+    \item $\tilde{\mu_3}$, light curve skewness
+    \item VarStat = $\sigma_{\rm{mag}} / \mu_{\rm{mag error}}$
+    \item a95, 95\% amplitude
+    \item M$_t = \frac{\max{(mag)} - \textrm{med}(mag)}{\max{(mag)} - \min{(mag)}}$, \citep{Mt}
+    \item conStat, number of sets of 3 consecutive points or more above or below median mag $\pm 2\sigma_{\rm{mag}}$, \citep{constat1, constat2}
+    \item N$_{\rm{above}}$, number of epochs above $\mu_{\rm{mag}} - 2\mu_{\rm{mag error}}$
+    \item N$_{\rm{below}}$, number of epochs below $\mu_{\rm{mag}} + 2\mu_{\rm{mag error}}$
+    \item $\chi^2_{\rm{const.}}$, fit of a constant magnitude model
+    \item $\chi^2_{\rm{linear}}$, fit of a linear magnitude model
+    \item $\chi^2_{\rm{quad.}}$, fit of a quadratic magnitude model
+\end{itemize}
+\end{singlespace}
+
+Each of these statistics is useful in determining variability, and in the case of periodic variables, can be useful in identifying the type of periodic star. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Periodic Variability} \label{subsec:periodic}
+
+Once the light curve statistics have been calculated, we then search each light curve for periodic signals. We use the Lomb-Scargle periodogram \citep[LS;][]{Lomb1976, Scargle1982} to search for periods in our light curves down to a minimum period of $0.1$\,d. For our LS search, we used the Astropy \citep{astropy2} implementation of the LS algorithm \citep{astropyLS1, astropyLS2}. We use a set frequency grid for all light curves with $250,000$ steps of $0.46296$\,nHz. This grid provides a fine spacing to ensure all frequencies are searched while reducing the need to compute a frequency grid for every light curve.
+
+For each periodogram
+
+
+%  We selected the highest peak, and if this peak corresponds to an observational alias (1 day, 29.5 days, 1 yr, etc.) or a harmonic of one of these aliases (1/2, 1/3, 1/4, 1/5, 2, 3, 4, 5), we removed that signal from the light curve and recalculated the periodogram until the highest-power frequency was not an alias (we counted a frequency not as an alias if it was more than 150 frequency bins away from the pure alias frequency, i.e., more than 0.005 day!1 away from an alias).
+% For the highest remaining peak, we calculated the false- alarm probability (VanderPlas 2018). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Non-periodic Variability} \label{subsec:aperiodic}
+
+
+
+\begin{figure*}
+\script{make_XsigmaNevents_plot.ipynb}
+\centering
+% \epsscale{1.2}
+\plotone{figures/VarStar_Nevents_vs_Xsigma.pdf}
+\caption{caption}
+\label{fig:Xsigma}
+\end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Variability Selection}\label{subsec:var_selection}
+
+The TDSS single epoch spectroscopy sample was targeted using SDSS and PS1 photometry, with details described in \citet{Morganson2015}. They report the TDSS sample should be 95\% pure in terms of true variable sources. However, not all objects appear to be variable in their ZTF light curves (e.g., they may have $\chi^2 \sim 1$). This is most likely because either the object is truly non-variable, or the magnitude errors are large enough they restrict our ability to detect variability.  
+
+To ensure we use the purest variable sample as possible, we make a series of cuts on the light curve features to remove possible non-variables. We first built a control sample by selecting all SDSS objects with spectra with \texttt{CLASS=`STAR'} and with \texttt{targetType=`STANDARD'}. We crossed matched this sample with ZTF DR6 in the same method as the TDSS sample, and kept only objects with reported ZTF $\chi^2 < 3$. The resulting control sample contains 67,006 objects. We then created a one-to-one match between the TDSS sample and the control sample. We did this by matching each TDSS star to the control star with the closest match in ZTF g and r. The SDSS standard stars on average are brighter than the TDSS sample, and so we also shift the control magnitudes so they match directly the ZTF magnitudes in each filter. We then add noise to the control sample magnitude errors to bring the total error to the expected level for that ZTF magnitude. The result is a control sample of the same size as the TDSS sample with the same magnitude distribution in both ZTf r and g, and with the same g$-$r color distribution as well. We then calculate the same set of statistics on the control sample as described in Section \ref{sec:lc_analysis}.
+
+Finally, to select our pure variables from the TDSS sample, we use the control sample to make a cut on $\chi^2$, Stetson J, VarStat, Xsigma, and the Lomb-Scargle false-alarm-probability. We require a TDSS star to have any of $\chi^2$, Stetson J, or VarStat greater than the 90\% level of the same statistic in the control sample in any filter. Additionally, we count a TDSS star as variable if it has $\log{(\textrm{FAP})} \leq -5$ in any filter, or has a Xsigma statistic from \ref{subsec:aperiodic} that exceeds the 99\% level of the control sample in any given bin. This results in a final variable sample of 20169 objects. Figure \ref{fig:var_notvar_hists} shows the TDSS sample and control sample distributions for the $\chi^2$, Stetson J, VarStat statistics. The dashed vertical lines represent the 90\% level of the control sample which is used to make the cut. The bottom right plot shows the magnitude distributions for the final variable and non-variable samples. The non-variable sample that was removed has fainter magnitudes on average suggesting the larger errors are responsible for the lack of detected variability.
+
+\begin{figure*}
+\script{make_Var_notVar_hists.ipynb}
+\centering
+% \epsscale{1.2}
+\plotone{figures/VarStar_VAR_vs_NONVAR_multiCut.pdf}
+\caption{need to add caption here}
+\label{fig:var_notvar_hists}
+\end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Spectroscopic Analysis} \label{spec}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multi-parameter Classification} \label{classes}
+
+
+\subsection{Principal Identifiable Classes}
+
+
+\subsection{Unidentifiable Classes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Interesting Objects} \label{weirdos}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion} \label{discussion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \clearpages
+% \facility{Sloan}
+\facilities{Sloan}
+% \facilities{FLWO:1.5m (FAST), Magellan:Baade (MagE), MMT (Binospec)}
+
+\software{Astropy \citep{astropy1, astropy2},  Corner \citep{corner}, Matplotlib \citep{matplotlib}, Numpy \citep{numpy}, Scipy \citep{scipy}, Scikit-learn \citep{Scikit-learn}, TOPCAT \citep{topcat}}
+
+% \clearpage
+% \begin{acknowledgments} 
+% The CSS survey is funded by the National Aeronautics and Space
+% Administration under Grant No. NNG05GF22G issued through the Science
+% Mission Directorate Near-Earth Objects Observations Program.  The CRTS
+% survey is supported by the U.S.~National Science Foundation under
+% grants AST-0909182 and AST-1313422.
+% \end{acknowledgments}
+\begin{acknowledgments} 
+Based on observations obtained with the Samuel Oschin Telescope 48-inch and the 60-inch Telescope at the Palomar Observatory as part of the Zwicky Transient Facility project. ZTF is supported by the National Science Foundation under Grants No. AST-1440341 and AST-2034437 and a collaboration including current partners Caltech, IPAC, the Weizmann Institute for Science, the Oskar Klein Center at Stockholm University, the University of Maryland, Deutsches Elektronen-Synchrotron and Humboldt University, the TANGO Consortium of Taiwan, the University of Wisconsin at Milwaukee, Trinity College Dublin, Lawrence Livermore National Laboratories, IN2P3, University of Warwick, Ruhr University Bochum, Northwestern University and former partners the University of Washington, Los Alamos National Laboratories, and Lawrence Berkeley National Laboratories. Operations are conducted by COO, IPAC, and UW.
+\end{acknowledgments}
+\begin{acknowledgments}
+Funding for the Sloan Digital Sky Survey IV has been provided by the Alfred P. Sloan Foundation, the U.S. Department of Energy Office of Science, and the Participating Institutions. 
+
+SDSS-IV acknowledges support and resources from the Center for High Performance Computing  at the University of Utah. The SDSS website is www.sdss.org.
+
+SDSS-IV is managed by the Astrophysical Research Consortium for the Participating Institutions of the SDSS Collaboration including the Brazilian Participation Group, the Carnegie Institution for Science, Carnegie Mellon University, Center for Astrophysics $|$ Harvard \& Smithsonian, the Chilean Participation Group, the French Participation Group, Instituto de Astrof\'isica de Canarias, The Johns Hopkins University, Kavli Institute for the Physics and Mathematics of the Universe (IPMU) / University of Tokyo, the Korean Participation Group, Lawrence Berkeley National Laboratory, Leibniz Institut f\"ur Astrophysik Potsdam (AIP),  Max-Planck-Institut f\"ur Astronomie (MPIA Heidelberg), Max-Planck-Institut f\"ur Astrophysik (MPA Garching), Max-Planck-Institut f\"ur Extraterrestrische Physik (MPE), National Astronomical Observatories of China, New Mexico State University, New York University, University of Notre Dame, Observat\'ario Nacional / MCTI, The Ohio State University, Pennsylvania State University, Shanghai Astronomical Observatory, United Kingdom Participation Group, Universidad Nacional Aut\'onoma de M\'exico, University of Arizona, University of Colorado Boulder, University of Oxford, University of Portsmouth, University of Utah, University of Virginia, University of Washington, University of Wisconsin, Vanderbilt University, and Yale University.
+\end{acknowledgments}
+
+
+\bibliography{bib}{}
+\bibliographystyle{aasjournal}
 
 \end{document}
