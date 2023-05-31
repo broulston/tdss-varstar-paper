@@ -269,7 +269,22 @@ We cross-matched this sample to Gaia EDR3 \citep{GaiaEDR3} and the distance cata
 % \end{figure}
 
 \begin{singlespace}
-\input{LC_stats.tex}
+\begin{deluxetable}{cDDDDD}
+\tablecaption{Light Curve Properties}
+\tablewidth{1.0\textwidth}
+\tablehead{\colhead{LC Survey} & \twocolhead{$N_{\rm{stars}}$} & \twocolhead{$<N_{\rm{epochs}}>$} & \twocolhead{$\sigma_{\rm{N_{epochs}}}$} & \twocolhead{$<\rm{mag}>$} & \twocolhead{$<\sigma_{\rm{mag}}>$}}
+\decimals
+\startdata
+CSS & 21834 & 264 & 148 & 19.36 & 0.27 \\
+ZTF g & 18718 & 197 & 203 & 20.22 & 0.15 \\
+ZTF r & 24313 & 311 & 223 & 19.59 & 0.11 \\
+ZTF i & 15619 &  34 &  19 & 18.82 & 0.08 \\
+%****************************************************
+%****************************************************
+\enddata
+\tablecomments{Statistics of the three light curve surveys in our variable star sample. For each survey we report the number of stars, the mean number of epochs, the standard deviation of the number of epochs, the mean magnitude, and the mean magnitude error. f} 
+\end{deluxetable}
+\label{tab:lc_stats}
 \end{singlespace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
