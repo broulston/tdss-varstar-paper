@@ -28,6 +28,10 @@ datasets:
   # 10.5281/zenodo.6468327:
   #   contents:
   #     TOI640b.json: src/data/TOI640b.json
+  10.5072/zenodo.1129154:
+    contents:
+      TDSS_VarStar_ZTFDR6_g_GroupID.fits: src/data/TDSS_VarStar_ZTFDR6_g_GroupID.fits
+      TDSS_VarStar_ZTFDR6_r_GroupID.fits: src/data/TDSS_VarStar_ZTFDR6_r_GroupID.fits
 
 # Custom file dependencies
 dependencies:
@@ -35,6 +39,19 @@ dependencies:
   #   - src/data/dataset_for_my_script.dat
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
+  src/scripts/plot_sky_dist.ipynb:
+    - src/data/TDSS_VarStar_FINAL_Var_ALL_PROP_STATS_dealiased.fits
+  src/scripts/sample_plots.py:
+    - src/data/TDSS_VarStar_FINAL_Var_ALL_PROP_STATS_dealiased.fits
+  src/scripts/make_XsigmaNevents_plot.ipynb:
+    - src/data/Var_notVar_data
+  src/scripts/make_Var_notVar_hists.ipynb:
+    - src/data/Var_notVar_data
+    - src/static/TDSS_SES+PREV_DR16DR12griLT20_GaiaEDR3_Drake2014PerVar_CSSID_ZTFIDs_LCpointer_PyHammer_EqW_LCProps.fits
+    - src/static/VarStar_LCSTATS2.fits
+    - src/static/VarStar_rawSigmaAboveBelow.fits
+    - src/static/VarStar_Controljittered_LCSTATS_withP2.fits
+    - src/static/VarStar_rawSigmaAboveBelow.fits
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
@@ -56,6 +73,9 @@ overleaf:
   pull:
     - src/tex/ms.tex
     - src/tex/bib.bib
+    - src/tex/aasjournal.bst
+    - src/tex/aassymbols.tex
+    - src/tex/aastex631.cls
 
 # Always require all input files to be present on disk for workflow to pass?
 require_inputs: true
@@ -66,6 +86,7 @@ run_cache_rules_on_ci: false
 # Mapping of script file extensions to instructions for executing them
 scripts:
   py: python {script}
+  ipynb: jupyter-execute {script}
 
 # Display of the `showyourwork` stamp on first page
 stamp:
